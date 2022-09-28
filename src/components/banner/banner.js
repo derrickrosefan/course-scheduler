@@ -1,6 +1,6 @@
 const Banner = ({ title }) => {
     return (
-        <div>
+        <div className="pt-3">
             <h1>{title}</h1>
         </div>
     );

@@ -1,4 +1,3 @@
-import './App.css';
 import CourseList from './components/courseList/courseList';
 import Banner from './components/banner/banner';
 
@@ -34,7 +33,7 @@ const schedule = {
 
 const App = () => {
   return (
-    <div>
+    <div className="container-fluid">
       <Banner title={schedule.title} />
       <CourseList courses={schedule.courses} />
     </div>
