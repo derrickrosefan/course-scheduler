@@ -1,6 +1,6 @@
 import { useJsonQuery } from "../../utilities/utilities";
 import Banner from "../banner/banner";
-import CourseList from "../courseList/courseList";
+import CoursePage from "../coursePage/coursePage";
 
 const SCHEDULE_URL =
 	"https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php";
@@ -24,7 +24,7 @@ const Schedule = () => {
 	return (
 		<div className="container-fluid">
 			<Banner title={data.title} />
-			<CourseList courses={data.courses} />
+			<CoursePage courses={data.courses} />
 		</div>
 	);
 };
