@@ -20,6 +20,7 @@ const TermSelector = ({ selectedTerm, setSelectedTerm }) => (
 	<div className="btn-group">
 		{Object.values(TERMS).map((term) => (
 			<TermButton
+				key={term}
 				term={term}
 				selectedTerm={selectedTerm}
 				setSelectedTerm={setSelectedTerm}
