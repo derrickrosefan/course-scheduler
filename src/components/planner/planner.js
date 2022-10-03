@@ -2,11 +2,11 @@ import { useJsonQuery } from "../../utilities/utilities";
 import Banner from "../banner/banner";
 import CoursePage from "../coursePage/coursePage";
 
-const SCHEDULE_URL =
+const COURSE_DATA_URL =
 	"https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php";
 
-const Schedule = () => {
-	const [data, isLoading, error] = useJsonQuery(SCHEDULE_URL);
+const Planner = () => {
+	const [data, isLoading, error] = useJsonQuery(COURSE_DATA_URL);
 	if (isLoading) {
 		return (
 			<div className="container-fluid">
@@ -29,4 +29,4 @@ const Schedule = () => {
 	);
 };
 
-export default Schedule;
+export default Planner;

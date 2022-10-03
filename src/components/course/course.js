@@ -8,9 +8,9 @@ const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
 				className={isSelected ? "card p-3 h-100 bg-light" : "card p-3 h-100"}
 			>
 				<div className="card-body">
-					<h2 className="card-title">
+					<h4 className="card-title">
 						{course.term} CS {course.number}
-					</h2>
+					</h4>
 					<p className="card-text">{course.title}</p>
 				</div>
 				<div
