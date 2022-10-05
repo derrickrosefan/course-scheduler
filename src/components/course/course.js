@@ -1,11 +1,12 @@
 const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
+	const cardColor = course.doesOverlap ? "bg-warning" : (isSelected ? "bg-primary" : "bg-white");
 	return (
 		<div
 			className="col pt-3"
-			onClick={() => toggleSelectedCourseIds(course.id)}
+			onClick={course.doesOverlap ? () => { } : () => toggleSelectedCourseIds(course.id)}
 		>
 			<div
-				className={isSelected ? "card p-3 h-100 bg-light" : "card p-3 h-100"}
+				className={`card p-3 h-100 ${cardColor}`}
 			>
 				<div className="card-body">
 					<h4 className="card-title">
@@ -15,13 +16,13 @@ const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
 				</div>
 				<div
 					className={
-						isSelected ? "card-footer bg-light" : "card-footer bg-white"
+						`card-footer ${cardColor}`
 					}
 				>
 					<p>{course.meets}</p>
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 };
 
