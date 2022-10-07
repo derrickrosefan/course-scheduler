@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
 	const cardColor = course.doesOverlap ? "bg-warning" : (isSelected ? "bg-primary" : "bg-white");
 	return (
@@ -13,6 +15,7 @@ const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
 						{course.term} CS {course.number}
 					</h4>
 					<p className="card-text">{course.title}</p>
+					<Link to={`/edit/${course.id}`} >{"Edit course info"}</Link>
 				</div>
 				<div
 					className={
