@@ -1,28 +1,17 @@
 import Planner from "./components/planner/planner";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CourseForm from "./components/courseForm/courseForm";
-import { useJsonQuery } from "./utilities/utilities";
-
-const COURSE_DATA_URL =
-	"https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php";
-
+import { useDbData } from "./utilities/utilities";
 
 const App = () => {
-	const [data, isLoading, error] = useJsonQuery(COURSE_DATA_URL);
-	if (isLoading) {
-		return (
-			<div className="container-fluid">
-				<p>Loading...</p>
-			</div>
-		);
+	const [data, error] = useDbData("/");
+	if (data === undefined) {
+		return <p>Loading...</p>;
 	}
-	if (error) {
-		return (
-			<div className="container-fluid">
-				<p>Error while retrieving course data...</p>
-			</div>
-		);
+	if (error !== null) {
+		return <p>Encountered error while loading data...</p>;
 	}
+	console.log(data);
 	return (
 		<BrowserRouter>
 			<Routes>

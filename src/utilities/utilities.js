@@ -1,15 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-
-const fetchJson = async (url) => {
-	const response = await fetch(url);
-	if (!response.ok) throw response;
-	return response.json();
-};
-
-export const useJsonQuery = (url) => {
-	const { data, isLoading, error } = useQuery([url], () => fetchJson(url));
-	return [data, isLoading, error];
-};
+import { useEffect, useState } from 'react';
+import { initializeApp } from "firebase/app";
+import { getDatabase, onValue, ref } from 'firebase/database';
+import { firebaseConfig } from '../firebaseConfig';
 
 const courseScheduleToDays = (courseSchedule) => {
 	return courseSchedule.split(" ")[0].match(/[A-Z][a-z]*/g);
@@ -41,3 +33,21 @@ export const doCourseSchedulesOverlap = (course1Schedule, course2Schedule) => {
 	const [course2StartTime, course2EndTime] = courseScheduleToStartAndEndTime(course2Schedule);
 	return doesDaysOverlap(course1Days, course2Days) && doesTimesIntervalOverlap(course1StartTime, course1EndTime, course2StartTime, course2EndTime);
 }
+// Initialize Firebase
+const firebase = initializeApp(firebaseConfig);
+const database = getDatabase(firebase);
+
+export const useDbData = (path) => {
+	const [data, setData] = useState();
+	const [error, setError] = useState(null);
+
+	useEffect(() => (
+		onValue(ref(database, path), (snapshot) => {
+			setData(snapshot.val());
+		}, (error) => {
+			setError(error);
+		})
+	), [path]);
+
+	return [data, error];
+};
