@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useDbUpdate } from "../../utilities/utilities";
 
 const InputField = ({ name, text, state, change }) => {
     return (
@@ -37,25 +38,28 @@ export const useFormData = (validator = null, values = {}) => {
     return [state, change];
 };
 
-const ButtonBar = () => {
-    const navigate = useNavigate();
-    return (
-        <div className="d-flex">
-            <button type="button" className="btn btn-outline-dark me-2" onClick={() => navigate(-1)}>Cancel</button>
-        </div>
-    );
-};
-
 const CourseForm = ({ data }) => {
     const { id } = useParams();
     const [state, change] = useFormData(validateUserData, data.courses[id]);
+    const [updateData, result] = useDbUpdate(`/courses/${id}`)
+    const navigate = useNavigate();
+    const submitEvent = ({ event }) => { updateData(event) };
     return (
         <div className="container pt-3">
             <h2>Edit Course Information</h2>
             <form>
                 <InputField name="title" text="Title" state={state} change={change} />
                 <InputField name="meets" text="Meets" state={state} change={change} />
-                <ButtonBar />
+                <div className="d-flex">
+                    <button type="button" className="btn btn-outline-dark me-2" onClick={() => navigate(-1)}>Cancel</button>
+                    <button type="button" className="btn btn-outline-dark me-2" onClick={() => {
+                        submitEvent({ event: state.values });
+                        if (result) {
+                            return;
+                        }
+                        navigate(-1);
+                    }}>Submit</button>
+                </div>
             </form>
         </div>
     )

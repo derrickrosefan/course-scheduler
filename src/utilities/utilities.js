@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, onValue, ref, update } from 'firebase/database';
 import { firebaseConfig } from '../firebaseConfig';
+import { useCallback } from 'react';
 
 const courseScheduleToDays = (courseSchedule) => {
 	return courseSchedule.split(" ")[0].match(/[A-Z][a-z]*/g);
@@ -50,4 +51,21 @@ export const useDbData = (path) => {
 	), [path]);
 
 	return [data, error];
+};
+
+const makeResult = (error) => {
+	const timestamp = Date.now();
+	const message = error?.message || `Updated: ${new Date(timestamp).toLocaleString()}`;
+	return { timestamp, error, message };
+};
+
+export const useDbUpdate = (path) => {
+	const [result, setResult] = useState();
+	const updateData = useCallback((value) => {
+		update(ref(database, path), value)
+			.then(() => setResult(makeResult()))
+			.catch((error) => setResult(makeResult(error)))
+	}, [path]);
+
+	return [updateData, result];
 };

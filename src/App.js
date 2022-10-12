@@ -11,7 +11,6 @@ const App = () => {
 	if (error !== null) {
 		return <p>Encountered error while loading data...</p>;
 	}
-	console.log(data);
 	return (
 		<BrowserRouter>
 			<Routes>

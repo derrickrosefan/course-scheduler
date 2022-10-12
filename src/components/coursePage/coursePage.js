@@ -16,7 +16,7 @@ const CoursePage = ({ courses }) => {
 		}, false);
 	}
 	const coursesWithInfo = Object.entries(courses).map(([id, course]) => {
-		return ({ doesOverlap: doesCourseOverlapWithSelectedCourses(course, id, selectedCourseIds), isSelected: selectedCourseIds.includes(id), id, ...course })
+		return ({ doesOverlap: doesCourseOverlapWithSelectedCourses(course, id, selectedCourseIds), isSelected: selectedCourseIds.includes(id), ...course })
 	});
 	const selectedCourses = coursesWithInfo.filter(course => course.isSelected);
 	const displayedCourses = coursesWithInfo.filter(
