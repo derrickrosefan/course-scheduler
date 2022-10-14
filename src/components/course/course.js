@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
-import { useAuthState } from "../../utilities/utilities";
 
-const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
-	const [user] = useAuthState();
-	const isUserAuthenticated = user !== null;
+const Course = ({ course, toggleSelectedCourseIds, isSelected, isAdmin }) => {
 	const cardColor = course.doesOverlap ? "bg-warning" : (isSelected ? "bg-primary" : "bg-white");
 	return (
 		<div
@@ -18,7 +15,7 @@ const Course = ({ course, toggleSelectedCourseIds, isSelected }) => {
 						{course.term} CS {course.number}
 					</h4>
 					<p className="card-text">{course.title}</p>
-					{isUserAuthenticated ? <Link to={`/edit/${course.id}`} >{"Edit course info"}</Link> : null}
+					{isAdmin && <Link to={`/edit/${course.id}`} >{"Edit course info"}</Link>}
 				</div>
 				<div
 					className={

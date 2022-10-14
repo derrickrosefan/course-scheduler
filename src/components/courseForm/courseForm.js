@@ -40,7 +40,7 @@ export const useFormData = (validator = null, values = {}) => {
 
 const CourseForm = ({ data }) => {
     const { id } = useParams();
-    const [state, change] = useFormData(validateUserData, data.courses[id]);
+    const [state, change] = useFormData(validateUserData, data[id]);
     const [updateData, result] = useDbUpdate(`/courses/${id}`)
     const navigate = useNavigate();
     const submitEvent = ({ event }) => { updateData(event) };

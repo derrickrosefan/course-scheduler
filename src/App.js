@@ -4,12 +4,12 @@ import CourseForm from "./components/courseForm/courseForm";
 import { useDbData } from "./utilities/utilities";
 
 const App = () => {
-	const [data, error] = useDbData("/");
-	if (data === undefined) {
-		return <p>Loading...</p>;
-	}
+	const [data, error] = useDbData("/courses");
 	if (error !== null) {
 		return <p>Encountered error while loading data...</p>;
+	}
+	if (data === undefined) {
+		return <p>Loading...</p>;
 	}
 	return (
 		<BrowserRouter>

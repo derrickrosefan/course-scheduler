@@ -4,8 +4,8 @@ import CoursePage from "../coursePage/coursePage";
 const Planner = ({ data }) => {
 	return (
 		<div className="container-fluid">
-			<Banner title={data.title} />
-			<CoursePage courses={data.courses} />
+			<Banner title="Course scheduler" />
+			<CoursePage courses={data} />
 		</div>
 	);
 };

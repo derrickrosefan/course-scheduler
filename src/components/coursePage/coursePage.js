@@ -3,9 +3,10 @@ import ScheduleModal from "../scheduleModal/scheduleModal";
 import { useState } from "react";
 import TermSelector from "../termSelector/termSelector";
 import { TERMS } from "../../constants/constants";
-import { doCourseSchedulesOverlap, signInWithGoogle, signOut } from "../../utilities/utilities";
+import { doCourseSchedulesOverlap, signInWithGoogle, signOut, useProfile } from "../../utilities/utilities";
 
 const CoursePage = ({ courses }) => {
+	const [{ user, isAdmin }, isLoading, error] = useProfile();
 	const [selectedTerm, setSelectedTerm] = useState(TERMS.FALL);
 	const [selectedCourseIds, setSelectedCourseIds] = useState([]);
 	const [isScheduleModalVisible, setIsScheduleModalVisible] = useState(false);
@@ -36,23 +37,27 @@ const CoursePage = ({ courses }) => {
 	return (
 		<div>
 			<ScheduleModal courses={selectedCourses} isVisible={isScheduleModalVisible} closeModal={closeModal} />
-			<div className="d-flex justify-content-between">
+			<div className="d-flex justify-content-between align-items-center">
 				<TermSelector
 					selectedTerm={selectedTerm}
 					setSelectedTerm={setSelectedTerm}
 				/>
-				<div>
-					<button type="button" className="btn btn-primary" onClick={() => signInWithGoogle()}>Sign In</button>
-					<button type="button" className="btn btn-primary" onClick={() => signOut()}>Sign Out</button>
-					<button type="button" className="btn btn-primary" onClick={() => openModel()}>Course Plan</button>
+				<div className="d-flex align-items-center">
+					{user ? `Hi, ${user.displayName}` : ""}
+					<button type="button" className="btn btn-primary m-1 p-2" onClick={() => signInWithGoogle()}>Sign In</button>
+					<button type="button" className="btn btn-primary m-1 p-2" onClick={() => signOut()}>Sign Out</button>
+					<button type="button" className="btn btn-primary m-1 p-2" onClick={() => openModel()}>Course Plan</button>
 				</div>
 			</div>
-			<CourseList
-				courses={displayedCourses}
-				selectedTerm={selectedTerm}
-				toggleSelectedCourseIds={toggleSelectedCourseIds}
-			/>
-		</div>
+			{
+				!isLoading && !error && <CourseList
+					courses={displayedCourses}
+					isAdmin={isAdmin}
+					selectedTerm={selectedTerm}
+					toggleSelectedCourseIds={toggleSelectedCourseIds}
+				/>
+			}
+		</div >
 	);
 };
 
