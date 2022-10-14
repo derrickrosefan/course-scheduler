@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref, update } from 'firebase/database';
 import { firebaseConfig } from '../firebaseConfig';
 import { useCallback } from 'react';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 
 const courseScheduleToDays = (courseSchedule) => {
 	return courseSchedule.split(" ")[0].match(/[A-Z][a-z]*/g);
@@ -68,4 +69,22 @@ export const useDbUpdate = (path) => {
 	}, [path]);
 
 	return [updateData, result];
+};
+
+export const signInWithGoogle = () => {
+	signInWithPopup(getAuth(firebase), new GoogleAuthProvider());
+};
+
+const firebaseSignOut = () => signOut(getAuth(firebase));
+
+export { firebaseSignOut as signOut };
+
+export const useAuthState = () => {
+	const [user, setUser] = useState(null);
+
+	useEffect(() => (
+		onAuthStateChanged(getAuth(firebase), setUser)
+	), [setUser]);
+
+	return [user];
 };

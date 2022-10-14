@@ -3,7 +3,7 @@ import ScheduleModal from "../scheduleModal/scheduleModal";
 import { useState } from "react";
 import TermSelector from "../termSelector/termSelector";
 import { TERMS } from "../../constants/constants";
-import { doCourseSchedulesOverlap } from "../../utilities/utilities";
+import { doCourseSchedulesOverlap, signInWithGoogle, signOut } from "../../utilities/utilities";
 
 const CoursePage = ({ courses }) => {
 	const [selectedTerm, setSelectedTerm] = useState(TERMS.FALL);
@@ -41,7 +41,11 @@ const CoursePage = ({ courses }) => {
 					selectedTerm={selectedTerm}
 					setSelectedTerm={setSelectedTerm}
 				/>
-				<button type="button" className="btn btn-primary" onClick={() => openModel()}>Course Plan</button>
+				<div>
+					<button type="button" className="btn btn-primary" onClick={() => signInWithGoogle()}>Sign In</button>
+					<button type="button" className="btn btn-primary" onClick={() => signOut()}>Sign Out</button>
+					<button type="button" className="btn btn-primary" onClick={() => openModel()}>Course Plan</button>
+				</div>
 			</div>
 			<CourseList
 				courses={displayedCourses}
