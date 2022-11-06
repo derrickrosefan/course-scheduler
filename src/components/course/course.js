@@ -4,6 +4,7 @@ const Course = ({ course, toggleSelectedCourseIds, isSelected, isAdmin }) => {
 	const cardColor = course.doesOverlap ? "bg-warning" : (isSelected ? "bg-primary" : "bg-white");
 	return (
 		<div
+			data-cy="courseCard"
 			className="col pt-3"
 			onClick={course.doesOverlap ? () => { } : () => toggleSelectedCourseIds(course.id)}
 		>

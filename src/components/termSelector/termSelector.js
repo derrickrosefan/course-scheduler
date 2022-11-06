@@ -1,7 +1,7 @@
 import { TERMS } from "../../constants/constants";
 
 const TermButton = ({ term, selectedTerm, setSelectedTerm }) => (
-	<div>
+	<div data-cy={`${term.toLowerCase()}Button`}>
 		<input
 			type="radio"
 			id={term}
