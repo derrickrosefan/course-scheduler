@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref, update } from 'firebase/database';
+import { connectDatabaseEmulator, getDatabase, onValue, ref, update } from 'firebase/database';
 import { firebaseConfig } from '../firebaseConfig';
 import { useCallback } from 'react';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-
+import { connectAuthEmulator, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithCredential, signInWithPopup, signOut } from 'firebase/auth';
 const courseScheduleToDays = (courseSchedule) => {
 	return courseSchedule.split(" ")[0].match(/[A-Z][a-z]*/g);
 }
@@ -37,7 +36,18 @@ export const doCourseSchedulesOverlap = (course1Schedule, course2Schedule) => {
 }
 // Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
+const auth = getAuth(firebase);
 const database = getDatabase(firebase);
+
+if (process.env.REACT_APP_EMULATE) {
+	connectAuthEmulator(auth, "http://127.0.0.1:9099");
+	connectDatabaseEmulator(database, "127.0.0.1", 9000);
+
+	signInWithCredential(auth, GoogleAuthProvider.credential(
+		'{"sub": "P09iZxyMhvSpvDr2G7a6kSI2b4dk", "email": "test@gmail.com", "displayName":"tester", "email_verified": true}'
+	));
+}
+
 
 export const useDbData = (path) => {
 	const [data, setData] = useState();
